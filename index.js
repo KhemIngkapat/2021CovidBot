@@ -52,14 +52,26 @@ client.on("message",async message=>{
 
 
         case "covid":
-            const reponse = await fetch('https://covid19.th-stat.com/api/open/timeline')
-            const json = await reponse.json()
-
-            console.log(json)
+            console.log('ye')
 
         case "chart":
-            const simple_data = [1,5]
-            const simple_label = ['Hey','Hello']
+            const reponse = await fetch('https://covid19.th-stat.com/api/open/timeline')
+            const json = await reponse.json()
+            const data = await json['Data']
+            const [confirmed,death,hospitalized,recovered,date] = [[],[],[],[],[]]
+            
+            
+            
+
+            data.forEach((item)=>{
+                confirmed.push(item['Confirmed'])
+                recovered.push(item['Recovered'])
+                hospitalized.push(item['Hospitalized'])
+                death.push(item['Deaths'])
+                date.push(item['Date'])
+
+            })
+
             const width = 800
             const height = 600
 
@@ -70,15 +82,43 @@ client.on("message",async message=>{
             })
 
             const configure = {
-                type : 'bar',
+                type : 'line',
                 data : {
-                    labels : simple_label,
+                    labels : date,
                     datasets : [{
-                        label : 'Testing',
-                        data : simple_data,
-                        backgroundColor : '#7289d9'
+                        label : `Confirmed : ${confirmed[confirmed.length-1]}`,
+                        data : confirmed,
+                        backgroundColor : '#00FFFF'
+                        ,lineTension: 0.1
 
-                    }]
+
+
+                    },
+                    {
+                        label : `Recovered : ${recovered[recovered.length-1]}`,
+                        data : recovered,
+                        backgroundColor : '#00FF00'
+                        ,lineTension: 0.1
+
+
+                    },
+                    {
+                        label : `Hospitalized : ${hospitalized[hospitalized.length-1]}`,
+                        data : hospitalized,
+                        backgroundColor : '#ff91a4'
+                        ,lineTension: 0.1
+
+
+                    },
+                    {
+                        label : `Deaths :   : ${death[death.length-1]}`,
+                        data : death,
+                        backgroundColor : '#990000'
+                        ,lineTension: 0.1
+
+
+                    }
+                ]
                 }
 
 
