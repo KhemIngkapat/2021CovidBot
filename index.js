@@ -1,5 +1,6 @@
 const { Client } = require("discord.js")
 const Discord = require("discord.js")
+const fetch = require("node-fetch")
 const client = new Client({
     disableEveryone: true
 });
@@ -13,6 +14,10 @@ client.on("ready",()=>{
     });
 });
 
+
+
+
+
 client.on("message",async message=>{
     const prefix = "+";
     if(message.author.bot) return;
@@ -22,6 +27,9 @@ client.on("message",async message=>{
 
 
     switch(message_array[0]){
+        default:
+            message.reply("nothing for stupid person like you")
+            break
         case "hello":
             message.reply('Fuck you')
             break
@@ -30,9 +38,14 @@ client.on("message",async message=>{
             message.reply('bye and fuckyou')
             break
 
-        default:
-            message.reply("nothing for stupid person like you")
-            break
+
+        case "covid":
+            const reponse = await fetch('https://covid19.th-stat.com/api/open/timeline')
+            const json = await reponse.json()
+
+            console.log(json)
+
+        
 
     }
 
