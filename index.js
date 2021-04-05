@@ -19,7 +19,7 @@ client.on("ready",()=>{
 
 
 const chartCallback = (ChartJS) => {
-    // ChartJS.plugins.register({
+    // ChartJS.pluginServices.register({
     //   beforeDraw: (chartInstance) => {
     //     const { chart } = chartInstance
     //     const { ctx } = chart
@@ -53,6 +53,7 @@ client.on("message",async message=>{
 
         case "covid":
             console.log('ye')
+            break
 
         case "chart":
             const reponse = await fetch('https://covid19.th-stat.com/api/open/timeline')
@@ -88,8 +89,10 @@ client.on("message",async message=>{
                     datasets : [{
                         label : `Confirmed : ${confirmed[confirmed.length-1]}`,
                         data : confirmed,
-                        backgroundColor : '#00FFFF'
-                        ,lineTension: 0.1
+                        borderColor : '#00FFFF',
+                        backgroundColor : '#00FFFF',
+                        pointRadius:0
+                        
 
 
 
@@ -97,28 +100,37 @@ client.on("message",async message=>{
                     {
                         label : `Recovered : ${recovered[recovered.length-1]}`,
                         data : recovered,
-                        backgroundColor : '#00FF00'
-                        ,lineTension: 0.1
+                        borderColor : '#00FF00',
+                        backgroundColor : '#00FF00',
+                        pointRadius : 0
+                        
 
 
                     },
                     {
                         label : `Hospitalized : ${hospitalized[hospitalized.length-1]}`,
                         data : hospitalized,
-                        backgroundColor : '#ff91a4'
-                        ,lineTension: 0.1
+                        borderColor : '#ff91a4',
+                        backgroundColor : '#ff91a4',
+                        pointRadius : 0
+                        
 
 
                     },
                     {
                         label : `Deaths :   : ${death[death.length-1]}`,
                         data : death,
-                        backgroundColor : '#990000'
-                        ,lineTension: 0.1
+                        borderColor : '#990000',
+                        backgroundColor : '#990000',
+                        pointRadius : 0
+                        
 
 
                     }
                 ]
+                },
+                options:{
+                    backgroundColor : 'rgb(255, 255, 255)'
                 }
 
 
@@ -130,6 +142,8 @@ client.on("message",async message=>{
             const attachment = new MessageAttachment(image)
 
             message.channel.send(attachment)
+
+            break
 
 
         
