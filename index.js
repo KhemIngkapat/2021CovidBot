@@ -1,7 +1,12 @@
 const { Client } = require("discord.js")
-const Discord = require("discord.js")
+// const Discord = require("discord.js")
 const fetch = require("node-fetch")
 const { MessageAttachment} = require('discord.js')
+const { config } = require("dotenv");
+
+config({
+    path:__dirname +"/.env"
+});
 
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas')
 const client = new Client({
@@ -43,7 +48,9 @@ client.on("message",async message=>{
             message.reply("nothing for stupid person like you")
             break
         case "hello":
-            message.reply('Fuck you')
+            const member = message.guild.members.cache.get(message_array[1]);
+
+            console.log(member)
             break
 
         case "bye":
@@ -54,6 +61,7 @@ client.on("message",async message=>{
         case "covid":
             console.log('ye')
             break
+
 
         case "chart":
             const reponse = await fetch('https://covid19.th-stat.com/api/open/timeline')
@@ -154,4 +162,4 @@ client.on("message",async message=>{
 
 })
 
-client.login("NzAxMzM3OTAwMDA0MTQ3MjQx.Xq-M0Q.eHYj6kvxVxe7Ulz6GOmFW1UYeQk");
+client.login(process.env.TOKEN);
