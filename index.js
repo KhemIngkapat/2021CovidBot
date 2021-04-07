@@ -90,6 +90,18 @@ client.on("message",async message=>{
                 chartCallback
             })
 
+            const plugin = {
+                id: 'custom_canvas_background_color',
+                beforeDraw: (chart) => {
+                  const ctx = chart.canvas.getContext('2d');
+                  ctx.save();
+                  ctx.globalCompositeOperation = 'destination-over';
+                  ctx.fillStyle = 'white';
+                  ctx.fillRect(0, 0, chart.width, chart.height);
+                  ctx.restore();
+                }
+              };
+
             const configure = {
                 type : 'line',
                 data : {
@@ -137,9 +149,9 @@ client.on("message",async message=>{
                     }
                 ]
                 },
-                options:{
-                    backgroundColor : 'rgb(255, 255, 255)'
-                }
+                plugins:[plugin],
+                    
+                
 
 
 
