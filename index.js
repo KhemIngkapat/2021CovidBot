@@ -270,4 +270,4 @@ client.on("message",async message=>{
     }
 })
 
-client.login('NzAxMzM3OTAwMDA0MTQ3MjQx.XpwB0Q.0Q6_5lfRIaqF9dlOtoTLjtU67gA');
+client.login(process.env.TOKEN);
