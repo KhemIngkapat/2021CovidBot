@@ -1,8 +1,9 @@
-const { Client,MessageEmbed} = require("discord.js")
+const { Client,
+    MessageEmbed,
+    MessageAttachment} = require("discord.js")
 // const Discord = require("discord.js")
 const fetch = require("node-fetch")
-const { MessageAttachment} = require('discord.js')
-const { config, parse } = require("dotenv");
+const { config } = require("dotenv");
 
 config({
     path:__dirname +"/.env"
@@ -11,7 +12,6 @@ config({
 
 
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
-const { Chart } = require("chart.js");
 const client = new Client({
     disableEveryone: true
 });
