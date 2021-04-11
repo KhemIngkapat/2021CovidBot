@@ -153,6 +153,7 @@ client.on("message",async message=>{
                         data : confirmed,
                         borderColor : '#00FFFF',
                         backgroundColor : '#00FFFF',
+                        borderWidth : 2,
                         pointRadius:0
                         
 
@@ -162,6 +163,7 @@ client.on("message",async message=>{
                         data : recovered,
                         borderColor : '#00FF00',
                         backgroundColor : '#00FF00',
+                        borderWidth : 2,
                         pointRadius : 0
                         
 
@@ -172,6 +174,7 @@ client.on("message",async message=>{
                         data : hospitalized,
                         borderColor : '#ff91a4',
                         backgroundColor : '#ff91a4',
+                        borderWidth : 2,
                         pointRadius : 0
                         
 
@@ -182,6 +185,7 @@ client.on("message",async message=>{
                         data : death,
                         borderColor : '#990000',
                         backgroundColor : '#990000',
+                        borderWidth : 2,
                         pointRadius : 0
                         
 
