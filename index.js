@@ -218,10 +218,10 @@ client.on("message",async message=>{
             .setTitle('Covid19 Thailand Tracker')
             .setDescription(today_data.Date)
             .addFields(
-                {name:'Confirmed',value:today_data.Confirmed,inline: true },
-                {name:'Recovered',value:today_data.Recovered,inline: true },
-                {name:'Hospitalized',value:today_data.Hospitalized,inline: true },
-                {name:'Deaths',value:today_data.Deaths,inline: true },
+                {name:'Confirmed✅',value:today_data.Confirmed,inline: true },
+                {name:'Recovered😃',value:today_data.Recovered,inline: true },
+                {name:'Hospitalized🏥',value:today_data.Hospitalized,inline: true },
+                {name:'Deaths💀',value:today_data.Deaths,inline: true },
                 {name:'New Confirmed',value:today_data.NewConfirmed,inline: true },
                 {name:'New Recovered',value:today_data.NewRecovered,inline: true },
                 {name:'New Hospitalized',value:today_data.NewHospitalized,inline: true },
