@@ -269,6 +269,9 @@ client.on("message",async message=>{
 
             message.reply(Invite_Embed)
             break
+            
+        case "bye":
+            message.reply("bye")
             break
 
     }
