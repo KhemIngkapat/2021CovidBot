@@ -19,7 +19,7 @@ const client = new Client({
 client.on("ready",()=>{
     console.log('Im ready')
 
-    client.user.setActivity('Me getting developped again',{ 
+    client.user.setActivity("+covid to track Thailand's Covid-19 Data",{ 
         type : "WATCHING"
 
     });
