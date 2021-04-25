@@ -1,7 +1,4 @@
-const { Client,
-    MessageEmbed,
-    MessageAttachment,
-    Collection} = require("discord.js")
+const { Client,Collection} = require("discord.js")
 const { config } = require("dotenv");
 const fs = require('fs')
 const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'))
