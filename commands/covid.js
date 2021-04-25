@@ -1,5 +1,5 @@
 const fetch = require('node-fetch')
-const {MessageEmbed} = require('discrd.js')
+const {MessageEmbed} = require('discord.js')
 
 module.exports = {
     name : 'covid',
@@ -10,14 +10,19 @@ module.exports = {
         const data = await json['Data']
         const today_data = await data[data.length -1]
 
-        let result = "\nToday's Data\n"
+        const Embed = new MessageEmbed()
+        .setColor('#5DBB63')
+        .setTitle('Covid19 Thailand Tracker')
+        .setDescription(today_data.Date)
+
+        .setFooter('ข้อมูลจาก กรมควบคุมโรค')
 
         Object.entries(today_data).forEach((data) =>{
-            result += `\tToday ${data[0]} : ${data[1]}\n`
+            Embed.addFields({name : data[0],value : data[1],inline : true})
         })
 
         
-        message.reply(result)
+        message.reply(Embed)
         
     }
 }
