@@ -4,24 +4,24 @@ const { Client,
     Collection} = require("discord.js")
 const { config } = require("dotenv");
 const fs = require('fs')
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'))
 
-client.commands = new Collection()
+
 
 config({
     path:__dirname +"/.env"
 });
 
-commandFiles.forEach((file) =>{
-    const command = require(`./commands/${file}`)
-    client.commands.set(command.name,command)
-})
+
 
 
 const client = new Client({
     disableEveryone: true
 });
 
+
+
+client.commands = new Collection()
 client.on("ready",()=>{
     console.log('Im ready')
 
@@ -30,6 +30,13 @@ client.on("ready",()=>{
 
     });
 });
+
+
+
+commandFiles.forEach((file) =>{
+    const command = require(`./commands/${file}`)
+    client.commands.set(command.name,command)
+})
 
 
 
