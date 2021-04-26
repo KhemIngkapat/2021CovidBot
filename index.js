@@ -43,7 +43,7 @@ client.on("message",async message=>{
     if(!message.guild) return;
     if(!message.content.startsWith(prefix)) return;
     const message_array =  message.content.slice(prefix.length).trim().split(/ +/g);
-    const command = message_array.shift().toLowerCase()
+    const command = message_array[0].toLowerCase()
     if(!client.commands.has(command)) return
     try{
         console.log(message_array)
