@@ -1,7 +1,8 @@
 const fetch = require('node-fetch')
-const {MessageEmbed} = require('discord.js')
 
-const {makeChart}  =require('./chart_making/makeChart.js')
+
+const {makeChart}  =require('./CovidVisualData/makeChart.js')
+
 
 module.exports = {
     name : 'covid',
