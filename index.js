@@ -46,7 +46,8 @@ client.on("message",async message=>{
     const command = message_array.shift().toLowerCase()
     if(!client.commands.has(command)) return
     try{
-        client.commands.get(command).execute(message,command)
+        console.log(message_array)
+        client.commands.get(command).execute(message,message_array)
     
     }catch(error){
         console.log(error)
