@@ -1,7 +1,8 @@
 const fetch = require('node-fetch')
 
 
-const {makeChart}  =require('./CovidVisualData/makeChart.js')
+
+const {makeChart,makeEmbed}  =require('./CovidVisualData/CovidData.js')
 
 
 module.exports = {
@@ -26,8 +27,9 @@ module.exports = {
 
         
         // message.reply(Embed)
-
+        message.reply(makeEmbed(message,args,today_data))
         makeChart(message,args,data)
+        
         
     }
 }
