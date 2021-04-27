@@ -1,64 +1,69 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const {MessageAttachment,MessageEmbed} = require('discord.js')
+const {Chart} = require('chart.js')
 
 
 
 module.exports = {
     async makeChart(message,args,data){
-        const dark_option = {
-            scales : {
-                x : {
-                    grid : {
-                        color : 'rgba(255,255,255,1)'
-                    },
-                    ticks : {
-                        color : 'rgba(255,255,255,1)'
-                    }
-                },
-                y : {
-                    grid : {
-                        color : 'rgba(255,255,255,1)'
-                    },
-                    ticks : {
-                        color : 'rgba(255,255,255,1)'
-                    }
-                }
-            },
-            plugins : {
-                title : {
-                    display :true,
-                    text : "Thailand's Covid Track",
-                    color : 'rgba(255,255,255,1)'
-                },
-                legend : {
-                    labels : {
-                        color : 'rgba(255,255,255,1)'
-                    }
-                }
-            }
+        // const dark_option = {
+        //     scales : {
+        //         x : {
+        //             grid : {
+        //                 color : 'rgba(255,255,255,1)'
+        //             },
+        //             ticks : {
+        //                 color : 'rgba(255,255,255,1)'
+        //             }
+        //         },
+        //         y : {
+        //             grid : {
+        //                 color : 'rgba(255,255,255,1)'
+        //             },
+        //             ticks : {
+        //                 color : 'rgba(255,255,255,1)'
+        //             }
+        //         }
+        //     },
+        //     plugins : {
+        //         title : {
+        //             display :true,
+        //             text : "Thailand's Covid Track",
+        //             color : 'rgba(255,255,255,1)'
+        //         },
+        //         legend : {
+        //             labels : {
+        //                 color : 'rgba(255,255,255,1)'
+        //             }
+        //         }
+        //     }
         
-        }
+        // }
     
-        const theme = {
-            dark : {
-                options : dark_option,
-                background : "#2C2F33",
-                    },
-            transparent : {
-                options : dark_option,
-                background : 'transparent'
-            },
-            light : {
-                options : {},
-                background : 'white'
-            },
-        }
+        // const theme = {
+        //     dark : {
+        //         options : dark_option,
+        //         background : "#2C2F33",
+        //             },
+        //     transparent : {
+        //         options : dark_option,
+        //         background : 'transparent'
+        //     },
+        //     light : {
+        //         options : {},
+        //         background : 'white'
+        //     },
+        // }
     
-        if(args[1] === undefined){
-            var selected_theme = theme['transparent']
-        }else{
-            var selected_theme = theme[args[1]]
-        }
+        // if(args[1] === undefined){
+        //     var selected_theme = theme['transparent']
+        // }else{
+        //     var selected_theme = theme[args[1]]
+        // }
+
+        const isNum = (str) => !isNaN(str)
+
+     
     
         const [confirmed,death,hospitalized,recovered,date] = [[],[],[],[],[]]
     
@@ -70,13 +75,19 @@ module.exports = {
             date.push(item['Date'])
         
         })
+
+        if(isNum(args[1])){
+            var thisNum = parseInt(args[1])
+        }else{
+            var thisNum = data.length
+        }
         
         const today_data = data[data.length -1]
         
         const width = 800
         const height = 600
     
-        const chartCallback = () =>{}
+        const chartCallback = (ChartJS) =>{}
         
         const canvas = new ChartJSNodeCanvas({
             width,
@@ -90,21 +101,22 @@ module.exports = {
               const ctx = chart.canvas.getContext('2d');
               ctx.save();
               ctx.globalCompositeOperation = 'destination-over';
-              ctx.fillStyle = selected_theme.background
+              ctx.fillStyle = 'transparent'
               ctx.fillRect(0, 0, chart.width, chart.height);
               ctx.restore();
             }
           };
         
         
-        // configure.defaults.color = 'white'
+        Chart.defaults.color = 'white'
+        Chart.defaults.borderColor = 'white'
         const configure = {
             type : 'line',
             data : {
                 labels : date,
                 datasets : [{
                     label : `Confirmed : ${confirmed[confirmed.length-1]}`,
-                    data : confirmed,
+                    data : confirmed.slice(confirmed.length - thisNum,confirmed.length -1),
                     borderColor : '#00FFFF',
                     backgroundColor : '#00FFFF',
                     borderWidth : 2,
@@ -148,7 +160,15 @@ module.exports = {
             ]
             },
             plugins:[plugin],
-            options : selected_theme.options
+            options : {
+                plugins : {
+                    title : {
+                        text : "Thailand's Covid Chart",
+                        display : 'True'
+                    }
+
+                }
+            }
                 
         }
         
