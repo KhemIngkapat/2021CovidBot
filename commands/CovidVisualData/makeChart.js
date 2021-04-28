@@ -1,9 +1,9 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const {MessageAttachment} = require('discord.js')
 const {Chart} = require('chart.js')
-const fs = require('fs')
+// const {readFileSync} = require('fs')
 
-const dark_option = fs.readFileSync('C:\Users\khemi\Coding\JS\NewCovidBot\commands\CovidVisualData\darkOption.json')
+// const dark_option = readFileSync('darkOption.json')
 
 
 
@@ -148,10 +148,11 @@ module.exports = {
                     title : {
                         text : "Thailand's Covid Chart",
                         display : 'True'
-                    }
+                    },
+                    scale : {}
 
                 },
-                dark_option
+                
             }
                 
         }
