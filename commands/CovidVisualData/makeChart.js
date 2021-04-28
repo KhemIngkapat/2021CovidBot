@@ -41,14 +41,11 @@ module.exports = {
         const isNum = (str) =>{
             return !isNaN(str)
         }
-
-        if(!isNum(args[0])){
-            var theme = args[args.length]
+        if(!isNum(args[args.length -1 ]) && args.length != 0){
+            var theme = args[args.length-1]
         }else{
             var theme = 'transparent'
         }
-        console.log(args[1])
-        // console.log(theme)
             
 
         if(bgColor[theme]['dark']){
@@ -130,7 +127,7 @@ module.exports = {
             return arr.slice(arr.length - num,arr.length)
         }
 
-        const size = parseInt(args[1])
+        const size = parseInt(args[0])
 
         if(specific){
             var [plot_con,plot_rec,plot_hos,plot_dea,plot_date] = [specSize(confirmed,size),
@@ -200,7 +197,7 @@ module.exports = {
     }catch(error){
         console.log(error)
 
-        message.reply('Something Went Wrong With The Chart\n\tPlease Try Again With Appropriate Format')
+        message.reply('Something Went Wrong With The Chart\n\t\tPlease Try Again With Appropriate Format')
 
         return false
     }

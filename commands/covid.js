@@ -32,9 +32,13 @@ module.exports = {
             return !isNaN(str)
         }
 
-        const formatted_args = args.sort()
+        const formatted_args = args.slice(1,args.length).sort()
 
-        makeLine(message,formatted_args,data,isNum(formatted_args[1]))
+        console.log(formatted_args)
+
+        console.log(isNum(formatted_args[0]))
+
+        makeLine(message,formatted_args,data,isNum(formatted_args[0]))
         
         
 
@@ -73,6 +77,9 @@ module.exports = {
         //     message.reply(embed)
         
         // }
+
+
+
         
         }
 
