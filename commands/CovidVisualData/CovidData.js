@@ -1,70 +1,14 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
-const {MessageAttachment,MessageEmbed} = require('discord.js')
+const {MessageAttachment} = require('discord.js')
 const {Chart} = require('chart.js')
 
 
 
 module.exports = {
     async makeChart(message,args,data){
-        // const dark_option = {
-        //     scales : {
-        //         x : {
-        //             grid : {
-        //                 color : 'rgba(255,255,255,1)'
-        //             },
-        //             ticks : {
-        //                 color : 'rgba(255,255,255,1)'
-        //             }
-        //         },
-        //         y : {
-        //             grid : {
-        //                 color : 'rgba(255,255,255,1)'
-        //             },
-        //             ticks : {
-        //                 color : 'rgba(255,255,255,1)'
-        //             }
-        //         }
-        //     },
-        //     plugins : {
-        //         title : {
-        //             display :true,
-        //             text : "Thailand's Covid Track",
-        //             color : 'rgba(255,255,255,1)'
-        //         },
-        //         legend : {
-        //             labels : {
-        //                 color : 'rgba(255,255,255,1)'
-        //             }
-        //         }
-        //     }
-        
-        // }
-    
-        // const theme = {
-        //     dark : {
-        //         options : dark_option,
-        //         background : "#2C2F33",
-        //             },
-        //     transparent : {
-        //         options : dark_option,
-        //         background : 'transparent'
-        //     },
-        //     light : {
-        //         options : {},
-        //         background : 'white'
-        //     },
-        // }
-    
-        // if(args[1] === undefined){
-        //     var selected_theme = theme['transparent']
-        // }else{
-        //     var selected_theme = theme[args[1]]
-        // }
 
         const isNum = (str) => !isNaN(str)
 
-     
-    
         const [confirmed,death,hospitalized,recovered,date] = [[],[],[],[],[]]
     
         data.forEach((item)=>{
@@ -121,8 +65,6 @@ module.exports = {
                     backgroundColor : '#00FFFF',
                     borderWidth : 2,
                     pointRadius:0
-                    
-        
                 },
                 {
                     label : `Recovered : ${recovered[recovered.length-1]}`,
@@ -131,9 +73,7 @@ module.exports = {
                     backgroundColor : '#00FF00',
                     borderWidth : 2,
                     pointRadius : 0
-                    
-        
-        
+
                 },
                 {
                     label : `Hospitalized : ${hospitalized[hospitalized.length-1]}`,
@@ -142,9 +82,7 @@ module.exports = {
                     backgroundColor : '#ff91a4',
                     borderWidth : 2,
                     pointRadius : 0
-                    
-        
-        
+
                 },
                 {
                     label : `Deaths :   : ${death[death.length-1]}`,
@@ -153,9 +91,7 @@ module.exports = {
                     backgroundColor : '#990000',
                     borderWidth : 2,
                     pointRadius : 0
-                    
-        
-        
+
                 }
             ]
             },
@@ -176,44 +112,5 @@ module.exports = {
         const attachment = new MessageAttachment(image)
         
         message.channel.send(attachment)
-        
-    },
-    makeEmbed(message,args,today_data){
-        const embed = new MessageEmbed()
-
-        const percentage = (upper)=>{
-            int_upper = parseInt(upper)
-            int_lower = parseInt(today_data.Confirmed)
-            long_percent = int_upper/int_lower
-        
-            return `${Math.round(long_percent*10000) / 100}%`
-        
-        
-        }
-
-    embed
-    .setColor('#5DBB63')
-    .setTitle('Covid19 Thailand Tracker')
-    .setDescription(today_data.Date)
-    .addFields(
-        {name:'Confirmed',value:today_data.Confirmed,inline: true },
-        {name:'Recovered',value:today_data.Recovered,inline: true },
-        {name:'Hospitalized',value:today_data.Hospitalized,inline: true },
-        {name:'Deaths',value:today_data.Deaths,inline: true },
-        {name:'New Confirmed',value:today_data.NewConfirmed,inline: true },
-        {name:'New Recovered',value:today_data.NewRecovered,inline: true },
-        {name:'New Hospitalized',value:today_data.NewHospitalized,inline: true },
-        {name:'New Deaths',value:today_data.NewDeaths,inline: true },
-        {name:'Recovered Percentage',value:percentage(today_data.Recovered),inline: true },
-        {name:'Hospitalized Percentage',value:percentage(today_data.Hospitalized),inline: true },
-        {name:'Deaths Percentage',value:percentage(today_data.Deaths),inline: true },
-    
-    )
-    .setFooter('ข้อมูลจาก กรมควบคุมโรค')
-    
-    
-    return embed
-        
     }
-
 }
