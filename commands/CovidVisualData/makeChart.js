@@ -1,19 +1,13 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const {MessageAttachment} = require('discord.js')
 const {Chart} = require('chart.js')
-// const {readFileSync} = require('fs')
-
-// const dark_option = readFileSync('darkOption.json')
-
-
+const fs = require('fs')
 
 module.exports = {
     async makeLine(message,args,data,specific = false){
 
         try{
 
-        // Chart.defaults.color = 'white'
-        // Chart.defaults.borderColor = 'white'
 
         const [confirmed,death,hospitalized,recovered,date] = [[],[],[],[],[]]
     
@@ -29,28 +23,84 @@ module.exports = {
         const bgColor = {
             'light' : {
                 'color' : 'white',
-                execute(){
-                    // Chart.defaults.color = '#666'
-                    // Chart.defaults.boderColor = 'rgba(0, 0, 0, 0.1)'
-                }
+                'dark' : false
+
+
             },
             'transparent' : {
                 'color' : 'transparent',
-                execute(){
-                    // Chart.defaults.color = 'white'
-                    // Chart.defaults.borderColor = 'white'
-                }
+                'dark' : true
+
             },
             'dark' : {
                 'color' : '#2F3136',
-                execute(){
-                    // Chart.defaults.color = 'white'
-                    // Chart.defaults.borderColor = 'white'
-                }
+                'dark' : true
+
             }
         }
+        const isNum = (str) =>{
+            return !isNaN(str)
+        }
 
-        // bgColor[args[2]].execute()
+        if(!isNum(args[0])){
+            var theme = args[args.length]
+        }else{
+            var theme = 'transparent'
+        }
+        console.log(args[1])
+        // console.log(theme)
+            
+
+        if(bgColor[theme]['dark']){
+
+            var dark_option = {
+                scales : {
+                    x : {
+                       grid: {
+                            color : "rgba(255,255,255,1)"
+                        },
+                        ticks : {
+                            color : "rgba(255,255,255,1)"
+                        }
+                    },
+                    y : {
+                        grid : {
+                            color : "rgba(255,255,255,1)"
+                        },
+                        ticks : {
+                            color : "rgba(255,255,255,1)"
+                        }
+                    }
+                },
+                plugins : {
+                    title : {
+                        display :true,
+                        text : "Thailand's Covid Track",
+                        color : "rgba(255,255,255,1)"
+                    },
+                    legend : {
+                        labels : {
+                            color :"rgba(255,255,255,1)"
+                        }
+                    }
+                }
+            
+            }
+
+        }else{
+            var dark_option = {plugins : {
+                title : {
+                    display :true,
+                    text : "Thailand's Covid Track",
+                    color : '#666'
+                },
+                legend : {
+                    labels : {
+                        color :"#666"
+                    }
+                }
+            }}
+        }
 
         
         const width = 800
@@ -70,19 +120,11 @@ module.exports = {
               const ctx = chart.canvas.getContext('2d');
               ctx.save();
               ctx.globalCompositeOperation = 'destination-over';
-              ctx.fillStyle = bgColor[args[2]]['color']
+              ctx.fillStyle = bgColor[theme]['color']
               ctx.fillRect(0, 0, chart.width, chart.height);
               ctx.restore();
             }
           };
-        
-        // if(args[2] == 'light') {
-        //     Chart.defaults.color = 'white'
-        //     Chart.defaults.borderColor = 'white'
-        // }
-
-        
-
         
         const specSize = (arr,num) =>{
             return arr.slice(arr.length - num,arr.length)
@@ -143,19 +185,11 @@ module.exports = {
             ]
             },
             plugins:[plugin],
-            options : {
-                plugins : {
-                    title : {
-                        text : "Thailand's Covid Chart",
-                        display : 'True'
-                    },
-                    scale : {}
-
-                },
-                
+            options : dark_option
+            
             }
                 
-        }
+        
         
         const image = await canvas.renderToBuffer(configure)
         const attachment = new MessageAttachment(image)
@@ -172,5 +206,5 @@ module.exports = {
     }
 }
 
-    
 }
+
