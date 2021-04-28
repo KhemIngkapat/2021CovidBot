@@ -1,6 +1,9 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const {MessageAttachment} = require('discord.js')
 const {Chart} = require('chart.js')
+const fs = require('fs')
+
+const dark_option = fs.readFileSync('C:\Users\khemi\Coding\JS\NewCovidBot\commands\CovidVisualData\darkOption.json')
 
 
 
@@ -9,8 +12,8 @@ module.exports = {
 
         try{
 
-        Chart.defaults.color = 'white'
-        Chart.defaults.borderColor = 'white'
+        // Chart.defaults.color = 'white'
+        // Chart.defaults.borderColor = 'white'
 
         const [confirmed,death,hospitalized,recovered,date] = [[],[],[],[],[]]
     
@@ -27,8 +30,8 @@ module.exports = {
             'light' : {
                 'color' : 'white',
                 execute(){
-                    Chart.defaults.color = '#666'
-                    Chart.defaults.boderColor = 'rgba(0, 0, 0, 0.1)'
+                    // Chart.defaults.color = '#666'
+                    // Chart.defaults.boderColor = 'rgba(0, 0, 0, 0.1)'
                 }
             },
             'transparent' : {
@@ -147,7 +150,8 @@ module.exports = {
                         display : 'True'
                     }
 
-                }
+                },
+                dark_option
             }
                 
         }
