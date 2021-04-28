@@ -2,7 +2,7 @@ const fetch = require('node-fetch')
 const {MessageEmbed} = require('discord.js')
 
 
-const {makeChart}  =require('./CovidVisualData/CovidData.js')
+const {makeLine}  =require('./CovidVisualData/makeChart.js')
 
 
 module.exports = {
@@ -36,8 +36,6 @@ module.exports = {
             long_percent = int_upper/int_lower
         
             return `${Math.round(long_percent*10000) / 100}%`
-        
-        
         }
 
         const embed = new MessageEmbed()
@@ -57,10 +55,21 @@ module.exports = {
             {name:'Hospitalized Percentage',value:percentage(today_data.Hospitalized),inline: true },
             {name:'Deaths Percentage',value:percentage(today_data.Deaths),inline: true },)
             .setFooter('ข้อมูลจาก กรมควบคุมโรค')
+        
+        // if(makeLine(message,args,data,true)){
+        //     // message.reply(embed)
+        // }
 
-        message.reply(embed)
-        makeChart(message,args,data)
+        if(await makeLine(message,args,data,true)){
+            
+            message.reply(embed)
+        
+        }
+        
+        }
+
+        
+       
         
         
     }
-}
