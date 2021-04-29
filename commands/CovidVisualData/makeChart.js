@@ -138,7 +138,7 @@ module.exports = {
                 specSize(death, size),
                 specSize(date, size)]
             } else {
-                var [plot_con, plot_rec, plot_hos, plot_dea, plot_date] = [confirmed, death, hospitalized, recovered, date]
+                var [plot_con, plot_rec, plot_hos, plot_dea, plot_date] = [confirmed, recovered, hospitalized,death , date]
             }
 
 

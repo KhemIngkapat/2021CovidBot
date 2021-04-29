@@ -14,33 +14,11 @@ module.exports = {
         const data = await json['Data']
         const today_data = await data[data.length -1]
 
-        // const Embed = new MessageEmbed()
-        // .setColor('#5DBB63')
-        // .setTitle('Covid19 Thailand Tracker')
-        // .setDescription(today_data.Date)
-
-        // .setFooter('ข้อมูลจาก กรมควบคุมโรค')
-
-        // Object.entries(today_data).forEach((data) =>{
-        //     Embed.addFields({name : data[0],value : data[1],inline : true})
-        // })
-
-        
-        // message.reply(Embed)
-
         const isNum = (str) =>{
             return !isNaN(str)
         }
 
         const formatted_args = args.slice(1,args.length).sort()
-
-        console.log(formatted_args)
-
-        console.log(isNum(formatted_args[0]))
-
-        makeLine(message,formatted_args,data,isNum(formatted_args[0]))
-        
-        
 
         const percentage = (upper)=>{
             int_upper = parseInt(upper)
@@ -50,8 +28,29 @@ module.exports = {
             return `${Math.round(long_percent*10000) / 100}%`
         }
 
+        const embedColor = {
+            'more' : '#FF0000',
+            'equal' : '#FFFF00',
+            'less' : '#5DBB63'
+        }
+
+        const checkCon = (arr) =>{
+
+            const con = []
+            con.push(arr[arr.length-2]['Confirmed'])
+            con.push(arr[arr.length-1]['Confirmed'])
+
+            if(con[1] > con[0]){
+                return 'more'
+            }else if(con[1] < con[0]){
+                return 'less'
+            }else{
+                return 'equal'
+            }
+
+        }
         const embed = new MessageEmbed()
-            .setColor('#5DBB63')
+            .setColor(embedColor[checkCon(data)])
             .setTitle('Covid19 Thailand Tracker')
             .setDescription(today_data.Date)
             .addFields(
@@ -68,23 +67,12 @@ module.exports = {
             {name:'Deaths Percentage',value:percentage(today_data.Deaths),inline: true },)
             .setFooter('ข้อมูลจาก กรมควบคุมโรค')
         
-        // if(makeLine(message,args,data,true)){
-        //     // message.reply(embed)
-        // }
+        if(!await makeLine(message,formatted_args,data,isNum(formatted_args[0]))){
+            makeLine(message,[],data,false)
 
-        // if(await makeLine(message,args,data,true)){
-            
-        //     message.reply(embed)
-        
-        // }
-
-
-
-        
         }
+        message.reply(embed)
 
-        
-       
-        
-        
     }
+
+}
