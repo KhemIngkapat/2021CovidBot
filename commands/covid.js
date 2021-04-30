@@ -37,8 +37,8 @@ module.exports = {
         const checkCon = (arr) =>{
 
             const con = []
-            con.push(arr[arr.length-2]['Confirmed'])
-            con.push(arr[arr.length-1]['Confirmed'])
+            con.push(arr[arr.length-2]['NewConfirmed'])
+            con.push(arr[arr.length-1]['NewConfirmed'])
 
             if(con[1] > con[0]){
                 return 'more'
