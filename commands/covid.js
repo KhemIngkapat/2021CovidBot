@@ -2,7 +2,7 @@ const fetch = require('node-fetch')
 const {MessageEmbed} = require('discord.js')
 
 
-const {makeChart}  =require('./CovidVisualData/CovidData.js')
+const {makeLine}  =require('./CovidVisualData/makeChart.js')
 
 
 module.exports = {
@@ -14,21 +14,11 @@ module.exports = {
         const data = await json['Data']
         const today_data = await data[data.length -1]
 
-        // const Embed = new MessageEmbed()
-        // .setColor('#5DBB63')
-        // .setTitle('Covid19 Thailand Tracker')
-        // .setDescription(today_data.Date)
+        const isNum = (str) =>{
+            return !isNaN(str)
+        }
 
-        // .setFooter('ข้อมูลจาก กรมควบคุมโรค')
-
-        // Object.entries(today_data).forEach((data) =>{
-        //     Embed.addFields({name : data[0],value : data[1],inline : true})
-        // })
-
-        
-        // message.reply(Embed)
-        
-        
+        const formatted_args = args.slice(1,args.length).sort()
 
         const percentage = (upper)=>{
             int_upper = parseInt(upper)
@@ -36,12 +26,31 @@ module.exports = {
             long_percent = int_upper/int_lower
         
             return `${Math.round(long_percent*10000) / 100}%`
-        
-        
         }
 
+        const embedColor = {
+            'more' : '#FF0000',
+            'equal' : '#FFFF00',
+            'less' : '#5DBB63'
+        }
+
+        const checkCon = (arr) =>{
+
+            const con = []
+            con.push(arr[arr.length-2]['NewConfirmed'])
+            con.push(arr[arr.length-1]['NewConfirmed'])
+
+            if(con[1] > con[0]){
+                return 'more'
+            }else if(con[1] < con[0]){
+                return 'less'
+            }else{
+                return 'equal'
+            }
+
+        }
         const embed = new MessageEmbed()
-            .setColor('#5DBB63')
+            .setColor(embedColor[checkCon(data)])
             .setTitle('Covid19 Thailand Tracker')
             .setDescription(today_data.Date)
             .addFields(
@@ -57,10 +66,13 @@ module.exports = {
             {name:'Hospitalized Percentage',value:percentage(today_data.Hospitalized),inline: true },
             {name:'Deaths Percentage',value:percentage(today_data.Deaths),inline: true },)
             .setFooter('ข้อมูลจาก กรมควบคุมโรค')
+        
+        if(!await makeLine(message,formatted_args,data,isNum(formatted_args[0]))){
+            makeLine(message,[],data,false)
 
+        }
         message.reply(embed)
-        makeChart(message,args,data)
-        
-        
+
     }
+
 }
