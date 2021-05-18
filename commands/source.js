@@ -10,7 +10,8 @@ module.exports = {
         .setDescription('All links')
         .addFields(
             {name:'Covid Data',value:'http://covid19.th-stat.com/api/open/today'},
-            {name:'Github Repository',value:'https://github.com/KhemIngkapat/2021CovidBot'}
+            {name:'Github Repository',value:'https://github.com/KhemIngkapat/2021CovidBot'},
+            {name:'Spreadsheet Covid Data',value : 'https://docs.google.com/spreadsheets/d/1OIO-HYNKMpPqzdkKPQd5bVcVZDVGNxxDbTBc_ndixt4/edit?usp=sharing'}
 
 
         )
