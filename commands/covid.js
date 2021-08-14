@@ -10,8 +10,9 @@ module.exports = {
     desc: 'Get Covid Data',
     async execute(message, args) {
         try {
-            const reponse = await fetch('https://covid19.th-stat.com/json/covid19v2/getTimeline.json')
+            const reponse = await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=all')
             const json = await reponse.data
+            console.log(json)
             const data = await json['Data']
             const today_data = await data[data.length - 1]
 
