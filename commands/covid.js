@@ -1,4 +1,4 @@
-const fetch = require('node-fetch')
+const fetch = require('axios')
 const { MessageEmbed } = require('discord.js')
 
 
@@ -11,7 +11,7 @@ module.exports = {
     async execute(message, args) {
         try {
             const reponse = await fetch('https://covid19.th-stat.com/json/covid19v2/getTimeline.json')
-            const json = await reponse.json()
+            const json = await reponse.data
             const data = await json['Data']
             const today_data = await data[data.length - 1]
 
