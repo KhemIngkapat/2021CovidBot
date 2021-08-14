@@ -1,7 +1,7 @@
 const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
 const { MessageAttachment } = require('discord.js')
-const { Chart } = require('chart.js')
-const fs = require('fs')
+// const { Chart } = require('chart.js')
+// const fs = require('fs')
 
 module.exports = {
     async makeLine(message, args, data, specific = false) {
@@ -9,16 +9,16 @@ module.exports = {
         try {
 
             // prepare and for-loop for all the data of list of dict into multiple list
-            const [confirmed, death, hospitalized, recovered, date] = [[], [], [], [], []]
+            const [confirmed, death,  recovered, date] = [data.cases, data.deaths, data.recovered, data.dates,]
 
-            data.forEach((item) => {
-                confirmed.push(item['Confirmed'])
-                recovered.push(item['Recovered'])
-                hospitalized.push(item['Hospitalized'])
-                death.push(item['Deaths'])
-                date.push(item['Date'])
+            // data.forEach((item) => {
+            //     confirmed.push(item['Confirmed'])
+            //     recovered.push(item['Recovered'])
+            //     hospitalized.push(item['Hospitalized'])
+            //     death.push(item['Deaths'])
+            //     date.push(item['Date'])
 
-            })
+            // })
 
             // object of the background color
             const bgColor = {
@@ -139,13 +139,12 @@ module.exports = {
 
             // check if it needed to reduce the size
             if (specific) {
-                var [plot_con, plot_rec, plot_hos, plot_dea, plot_date] = [specSize(confirmed, size),
+                var [plot_con, plot_rec, plot_dea, plot_date] = [specSize(confirmed, size),
                 specSize(recovered, size),
-                specSize(hospitalized, size),
                 specSize(death, size),
                 specSize(date, size)]
             } else {
-                var [plot_con, plot_rec, plot_hos, plot_dea, plot_date] = [confirmed, recovered, hospitalized,death , date]
+                var [plot_con, plot_rec, plot_dea, plot_date] = [confirmed, recovered,death , date]
             }
 
             // plotting and everything works
@@ -166,15 +165,6 @@ module.exports = {
                         data: plot_rec,
                         borderColor: '#00FF00',
                         backgroundColor: '#00FF00',
-                        borderWidth: 2,
-                        pointRadius: 0.1
-
-                    },
-                    {
-                        label: `Hospitalized : ${hospitalized[hospitalized.length - 1]}`,
-                        data: plot_hos,
-                        borderColor: '#ff91a4',
-                        backgroundColor: '#ff91a4',
                         borderWidth: 2,
                         pointRadius: 0.1
 

@@ -17,7 +17,7 @@ module.exports = {
 
 
             const setDate = new Set()
-            const conData = { }
+            const conData = {}
 
             // Object.keys(fetchData).map((key) => {
             //     data[key] = []
@@ -31,7 +31,6 @@ module.exports = {
                 })
             })
             conData.dates = [...setDate]
-            console.log(conData)
 
             // getting latest data
 
@@ -47,9 +46,19 @@ module.exports = {
                     return obj;
                 }, {});
 
-            latestData['latestDate'] = conData.dates[conData.dates.length-1]
-            console.log(latestData);
+            latestData['latestDate'] = conData.dates[conData.dates.length - 1]
 
+            // function for getting the percentage of anything compare to comfirmed
+            const percentage = (upper,lower) => {
+                int_upper = parseInt(upper)
+                int_lower = parseInt(lower)
+                long_percent = int_upper / int_lower
+
+                return `${Math.round(long_percent * 10000) / 100}%`
+            }
+
+            latestData.recovPercentage = percentage(latestData.recovered,latestData.cases)
+            latestData.deathPercentage = percentage(latestData.deaths,latestData.cases)
 
 
 
@@ -61,14 +70,7 @@ module.exports = {
             // get the args sorted like [number,theme]
             const formatted_args = args.slice(1, args.length).sort()
 
-            // function for getting the percentage of anything compare to comfirmed
-            const percentage = (upper) => {
-                int_upper = parseInt(upper)
-                int_lower = parseInt(today_data.Confirmed)
-                long_percent = int_upper / int_lower
 
-                return `${Math.round(long_percent * 10000) / 100}%`
-            }
 
             // the color of the embed message
             const embedColor = {
@@ -78,44 +80,55 @@ module.exports = {
             }
 
             // function to compare the latest to the second lastest to select the color
+            // const checkCon = (arr) => {
+
+            //     const con = []
+            //     con.push(arr[arr.length - 2]['NewConfirmed'])
+            //     con.push(arr[arr.length - 1]['NewConfirmed'])
+
+            //     if (con[1] > con[0]) {
+            //         return 'more'
+            //     } else if (con[1] < con[0]) {
+            //         return 'less'
+            //     } else {
+            //         return 'equal'
+            //     }
+
+            // }
+
             const checkCon = (arr) => {
+                let firstNum = arr[arr.length-1] - arr[arr.length-2]
+                let secondNum = arr[arr.length-2] - arr[arr.length-3]
 
-                const con = []
-                con.push(arr[arr.length - 2]['NewConfirmed'])
-                con.push(arr[arr.length - 1]['NewConfirmed'])
-
-                if (con[1] > con[0]) {
-                    return 'more'
-                } else if (con[1] < con[0]) {
+                if(firstNum<secondNum){
                     return 'less'
-                } else {
+                }else if(firstNum>secondNum){
+                    return 'more'
+                }else{
                     return 'equal'
                 }
-
             }
+
             // fucking long embed
             // now there is no hospitalized part because of new URL
             const embed = new MessageEmbed()
-                .setColor(embedColor[checkCon(data)])
+                .setColor(embedColor[checkCon(conData.cases)])
                 .setTitle('Covid19 Thailand Tracker')
-                .setDescription(today_data.Date)
+                .setDescription(latestData.latestDate)
                 .addFields(
-                    { name: 'Confirmed ✅', value: today_data.Confirmed, inline: true },
-                    { name: 'Recovered 👍', value: today_data.Recovered, inline: true },
-                    { name: 'Hospitalized 🏥', value: today_data.Hospitalized, inline: true },
-                    { name: 'Deaths 💀', value: today_data.Deaths },
-                    { name: 'New Confirmed ✅', value: today_data.NewConfirmed, inline: true },
-                    { name: 'New Recovered 👍', value: today_data.NewRecovered, inline: true },
-                    { name: 'New Hospitalized 🏥', value: today_data.NewHospitalized, inline: true },
-                    { name: 'New Deaths 💀', value: today_data.NewDeaths },
-                    { name: 'Recovered Percentage 👍', value: percentage(today_data.Recovered), inline: true },
-                    { name: 'Hospitalized Percentage 🏥', value: percentage(today_data.Hospitalized), inline: true },
-                    { name: 'Deaths Percentage 💀', value: percentage(today_data.Deaths), inline: true })
+                    { name: 'Confirmed ✅', value:latestData.cases, inline: true },
+                    { name: 'Recovered 👍', value: latestData.recovered, inline: true },
+                    { name: 'Deaths 💀', value: latestData.deaths },
+                    { name: 'New Confirmed ✅', value: latestData.todayCases, inline: true },
+                    { name: 'New Recovered 👍', value: latestData.todayRecovered, inline: true },
+                    { name: 'New Deaths 💀', value: latestData.todayDeaths },
+                    { name: 'Recovered Percentage 👍', value: latestData.recovPercentage, inline: true },
+                    { name: 'Deaths Percentage 💀', value:latestData.deathPercentage, inline: true })
                 .setFooter('ข้อมูลจาก กรมควบคุมโรค')
 
             // check the chart function
-            if (!await makeLine(message, formatted_args, data, isNum(formatted_args[0]))) {
-                makeLine(message, [], data, false)
+            if (!await makeLine(message, formatted_args, conData, isNum(formatted_args[0]))) {
+                makeLine(message, [], conData, false)
 
             }
             // send embed message
