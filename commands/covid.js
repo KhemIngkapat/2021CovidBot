@@ -10,15 +10,51 @@ module.exports = {
     desc: 'Get Covid Data',
     async execute(message, args) {
         try {
-            // Getting Data With Fetching
-            const reponse = await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=all')
-            const json = await reponse.data
-            console.log(json)
-            const data = await json['Data']
-            const today_data = await data[data.length - 1]
+            // Getting Historical Data With Fetching
+            const conResponse = await fetch('https://disease.sh/v3/covid-19/historical/th')
+            const conJson = await conResponse.data
+            const conFetchData = await conJson.timeline
 
 
-// some random function
+            const setDate = new Set()
+            const conData = { }
+
+            // Object.keys(fetchData).map((key) => {
+            //     data[key] = []
+            // })
+
+            Object.entries(conFetchData).map(([type, obj]) => {
+                conData[type] = []
+                Object.entries(obj).map(([date, num]) => {
+                    setDate.add(date)
+                    conData[type].push(num)
+                })
+            })
+            conData.dates = [...setDate]
+            console.log(conData)
+
+            // getting latest data
+
+            const latestResponse = await fetch('https://disease.sh/v3/covid-19/countries/thailand')
+            const latestJson = await latestResponse.data
+
+            const allowed = ['cases', 'todayCases', 'deaths', 'todayDeaths', 'recovered', 'todayRecovered']
+
+            const latestData = Object.keys(latestJson)
+                .filter(key => allowed.includes(key))
+                .reduce((obj, key) => {
+                    obj[key] = latestJson[key];
+                    return obj;
+                }, {});
+
+            latestData['latestDate'] = conData.dates[conData.dates.length-1]
+            console.log(latestData);
+
+
+
+
+
+            // some random function
             const isNum = (str) => {
                 return !isNaN(str)
             }
@@ -58,6 +94,7 @@ module.exports = {
 
             }
             // fucking long embed
+            // now there is no hospitalized part because of new URL
             const embed = new MessageEmbed()
                 .setColor(embedColor[checkCon(data)])
                 .setTitle('Covid19 Thailand Tracker')
