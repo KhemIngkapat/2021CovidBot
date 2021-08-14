@@ -8,7 +8,7 @@ module.exports = {
 
         try {
 
-
+            // prepare and for-loop for all the data of list of dict into multiple list
             const [confirmed, death, hospitalized, recovered, date] = [[], [], [], [], []]
 
             data.forEach((item) => {
@@ -20,6 +20,7 @@ module.exports = {
 
             })
 
+            // object of the background color
             const bgColor = {
                 'light': {
                     'color': 'white',
@@ -38,9 +39,12 @@ module.exports = {
 
                 }
             }
+            // this checkNum function function again
             const isNum = (str) => {
                 return !isNaN(str)
             }
+
+            // check args if its consist of the theme or not to return the background color
             if (!isNum(args[args.length - 1]) && args.length != 0) {
                 var theme = args[args.length - 1]
             } else {
@@ -48,6 +52,7 @@ module.exports = {
             }
 
 
+            // get the dark option like the color of line and font for diffent theme
             if (bgColor[theme]['dark']) {
 
                 var dark_option = {
@@ -101,11 +106,11 @@ module.exports = {
                 }
             }
 
-
+            // some chart stuff that i totally forgot
             const width = 800
             const height = 600
 
-            const chartCallback = (ChartJS) => { }
+            const chartCallback = (ChartJS) => {}
 
             const canvas = new ChartJSNodeCanvas({
                 width,
@@ -125,12 +130,14 @@ module.exports = {
                 }
             };
 
+            // function to reduce the size of list
             const specSize = (arr, num) => {
                 return arr.slice(arr.length - num, arr.length)
             }
 
             const size = parseInt(args[0])
 
+            // check if it needed to reduce the size
             if (specific) {
                 var [plot_con, plot_rec, plot_hos, plot_dea, plot_date] = [specSize(confirmed, size),
                 specSize(recovered, size),
@@ -141,7 +148,7 @@ module.exports = {
                 var [plot_con, plot_rec, plot_hos, plot_dea, plot_date] = [confirmed, recovered, hospitalized,death , date]
             }
 
-
+            // plotting and everything works
             const configure = {
                 type: 'line',
                 data: {
